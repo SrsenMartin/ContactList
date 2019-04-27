@@ -28,7 +28,7 @@ namespace ContactListApi.Migrations
                 {
                     EmailId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EmailAdress = table.Column<string>(maxLength: 320, nullable: true),
+                    EmailAdress = table.Column<string>(maxLength: 320, nullable: false),
                     ContactId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -48,7 +48,7 @@ namespace ContactListApi.Migrations
                 {
                     NumberId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PhoneNumber = table.Column<string>(maxLength: 15, nullable: true),
+                    PhoneNumber = table.Column<string>(maxLength: 15, nullable: false),
                     ContactId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -56,6 +56,26 @@ namespace ContactListApi.Migrations
                     table.PrimaryKey("PK_Numbers", x => x.NumberId);
                     table.ForeignKey(
                         name: "FK_Numbers_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
+                        principalColumn: "ContactId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    TagId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    tagName = table.Column<string>(maxLength: 100, nullable: false),
+                    ContactId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.TagId);
+                    table.ForeignKey(
+                        name: "FK_Tags_Contacts_ContactId",
                         column: x => x.ContactId,
                         principalTable: "Contacts",
                         principalColumn: "ContactId",
@@ -71,6 +91,11 @@ namespace ContactListApi.Migrations
                 name: "IX_Numbers_ContactId",
                 table: "Numbers",
                 column: "ContactId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_ContactId",
+                table: "Tags",
+                column: "ContactId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -80,6 +105,9 @@ namespace ContactListApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Numbers");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "Contacts");

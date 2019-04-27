@@ -84,6 +84,55 @@ namespace ContactListApi.Controllers
             return Ok(emails);
         }
 
+        // GET: api/Contact/5/Tags
+        [HttpGet("{id}/Tags")]
+        public async Task<IActionResult> GetTags([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var tags = await _context.Tags.Where(tag => tag.ContactId == id).ToListAsync();
+
+            if (tags == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tags);
+        }
+
+        // GET: api/Contact/Search
+        [HttpGet("Search/{keyword}")]
+        public async Task<IActionResult> searchContact([FromRoute] string keyword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var contactsIds = new List<int>();
+            var tags = await _context.Tags.Where(tag => tag.tagName.StartsWith(keyword)).ToListAsync();
+            contactsIds.AddRange(tags.Select(tag => tag.ContactId));
+            var contIds = await _context.Contacts.Where(contact => contact.Name.StartsWith(keyword) || contact.LastName.StartsWith(keyword)).ToListAsync();
+            contactsIds.AddRange(contIds.Select(contact => contact.ContactId));
+            var distEl = contactsIds.Distinct().ToList();
+
+            var contacts = await _context.Contacts.Where(contact => distEl.Contains(contact.ContactId)).ToListAsync();
+            foreach(Contact element in contacts)
+            {
+                element.Tags = new List<Tag>();
+            }
+
+            if (contacts == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(contacts);
+        }
+
         // PUT: api/Contact/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContact([FromRoute] int id, [FromBody] Contact contact)

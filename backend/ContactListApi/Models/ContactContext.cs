@@ -12,6 +12,7 @@ namespace ContactListApi.Models
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Number> Numbers { get; set; }
         public DbSet<Email> Emails { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         public ContactContext(DbContextOptions<ContactContext> options):base(options)
         {
@@ -21,13 +22,21 @@ namespace ContactListApi.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Number>()
-                .HasOne(c => c.Contact)
-                .WithMany(n => n.Numbers)
+                .HasOne(n => n.Contact)
+                .WithMany(c => c.Numbers)
+                .HasForeignKey(n => n.ContactId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Email>()
                 .HasOne(e => e.Contact)
-                .WithMany(n => n.Emails)
+                .WithMany(c => c.Emails)
+                .HasForeignKey(e => e.ContactId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Tag>()
+                .HasOne(t => t.Contact)
+                .WithMany(c => c.Tags)
+                .HasForeignKey(t => t.ContactId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

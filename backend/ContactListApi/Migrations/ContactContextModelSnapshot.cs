@@ -48,6 +48,7 @@ namespace ContactListApi.Migrations
                     b.Property<int>("ContactId");
 
                     b.Property<string>("EmailAdress")
+                        .IsRequired()
                         .HasMaxLength(320);
 
                     b.HasKey("EmailId");
@@ -66,6 +67,7 @@ namespace ContactListApi.Migrations
                     b.Property<int>("ContactId");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(15);
 
                     b.HasKey("NumberId");
@@ -73,6 +75,25 @@ namespace ContactListApi.Migrations
                     b.HasIndex("ContactId");
 
                     b.ToTable("Numbers");
+                });
+
+            modelBuilder.Entity("ContactListApi.Models.Tag", b =>
+                {
+                    b.Property<int>("TagId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ContactId");
+
+                    b.Property<string>("tagName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("TagId");
+
+                    b.HasIndex("ContactId");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("ContactListApi.Models.Email", b =>
@@ -87,6 +108,14 @@ namespace ContactListApi.Migrations
                 {
                     b.HasOne("ContactListApi.Models.Contact", "Contact")
                         .WithMany("Numbers")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ContactListApi.Models.Tag", b =>
+                {
+                    b.HasOne("ContactListApi.Models.Contact", "Contact")
+                        .WithMany("Tags")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
