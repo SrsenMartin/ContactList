@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContactListApi.Migrations
 {
     [DbContext(typeof(ContactContext))]
-    [Migration("20190427122530_initMigration")]
+    [Migration("20190427135959_initMigration")]
     partial class initMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,7 +56,7 @@ namespace ContactListApi.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("Email");
+                    b.ToTable("Emails");
                 });
 
             modelBuilder.Entity("ContactListApi.Models.Number", b =>
@@ -74,7 +74,7 @@ namespace ContactListApi.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("Number");
+                    b.ToTable("Numbers");
                 });
 
             modelBuilder.Entity("ContactListApi.Models.Email", b =>

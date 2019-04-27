@@ -9,6 +9,12 @@ namespace ContactListApi.Models
 {
     public class Contact
     {
+        public Contact()
+        {
+            Numbers = new List<Number>();
+            Emails = new List<Email>();
+        }
+
         [Key]
         public int ContactId { get; set; }
 
@@ -24,8 +30,8 @@ namespace ContactListApi.Models
         [EmailAddress]
         public string Adress { get; set; }
 
-        public List<Number> Numbers { get; set; }
-        public List<Email> Emails { get; set; }
+        public virtual ICollection<Number> Numbers { get; set; }
+        public virtual ICollection<Email> Emails { get; set; }
     }
 
     public class Number

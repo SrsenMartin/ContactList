@@ -10,6 +10,8 @@ namespace ContactListApi.Models
     {
 
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Number> Numbers { get; set; }
+        public DbSet<Email> Emails { get; set; }
 
         public ContactContext(DbContextOptions<ContactContext> options):base(options)
         {

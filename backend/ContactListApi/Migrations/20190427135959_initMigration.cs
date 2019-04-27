@@ -23,7 +23,7 @@ namespace ContactListApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Email",
+                name: "Emails",
                 columns: table => new
                 {
                     EmailId = table.Column<int>(nullable: false)
@@ -33,9 +33,9 @@ namespace ContactListApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Email", x => x.EmailId);
+                    table.PrimaryKey("PK_Emails", x => x.EmailId);
                     table.ForeignKey(
-                        name: "FK_Email_Contacts_ContactId",
+                        name: "FK_Emails_Contacts_ContactId",
                         column: x => x.ContactId,
                         principalTable: "Contacts",
                         principalColumn: "ContactId",
@@ -43,7 +43,7 @@ namespace ContactListApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Number",
+                name: "Numbers",
                 columns: table => new
                 {
                     NumberId = table.Column<int>(nullable: false)
@@ -53,9 +53,9 @@ namespace ContactListApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Number", x => x.NumberId);
+                    table.PrimaryKey("PK_Numbers", x => x.NumberId);
                     table.ForeignKey(
-                        name: "FK_Number_Contacts_ContactId",
+                        name: "FK_Numbers_Contacts_ContactId",
                         column: x => x.ContactId,
                         principalTable: "Contacts",
                         principalColumn: "ContactId",
@@ -63,23 +63,23 @@ namespace ContactListApi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Email_ContactId",
-                table: "Email",
+                name: "IX_Emails_ContactId",
+                table: "Emails",
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Number_ContactId",
-                table: "Number",
+                name: "IX_Numbers_ContactId",
+                table: "Numbers",
                 column: "ContactId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Email");
+                name: "Emails");
 
             migrationBuilder.DropTable(
-                name: "Number");
+                name: "Numbers");
 
             migrationBuilder.DropTable(
                 name: "Contacts");

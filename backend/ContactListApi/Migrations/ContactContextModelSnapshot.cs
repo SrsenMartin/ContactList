@@ -54,7 +54,7 @@ namespace ContactListApi.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("Email");
+                    b.ToTable("Emails");
                 });
 
             modelBuilder.Entity("ContactListApi.Models.Number", b =>
@@ -72,7 +72,7 @@ namespace ContactListApi.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("Number");
+                    b.ToTable("Numbers");
                 });
 
             modelBuilder.Entity("ContactListApi.Models.Email", b =>
