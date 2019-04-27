@@ -11,7 +11,7 @@ namespace ContactListApi.Models
     public static class DbDataLoader
     {
 
-        //private static string clearNull = "DELETE FROM Contacts";
+        //private static string clearDb = "DELETE FROM Contacts WHERE 1=1";
 
         public static void Initialize(IServiceProvider serviceProvider)
         {
@@ -42,7 +42,7 @@ namespace ContactListApi.Models
                     {
                         Name = "Ivo",
                         Adress = "Ivina ulica 1",
-                        Numbers = new List<Number>(new Number[] { new Number { PhoneNumber = "09421321" }, new Number { PhoneNumber = "094213124213123123" }, new Number { PhoneNumber = "09777777743243" } })
+                        Numbers = new List<Number>(new Number[] { new Number { PhoneNumber = "09421321" }, new Number { PhoneNumber = "0942131242" }, new Number { PhoneNumber = "09777777" } })
                     },
                     new Contact
                     {
@@ -56,9 +56,10 @@ namespace ContactListApi.Models
                         LastName = "Stijena",
                         Adress = "Vukovarska 999",
                         Emails = new List<Email>(new Email[] { new Email { EmailAdress = "petar@gmail.com" }, new Email { EmailAdress = "petar1@hotmail.com" }, new Email { EmailAdress = "pppp1@hotmail.com" } }),
-                        Numbers = new List<Number>(new Number[] { new Number { PhoneNumber = "1" }, new Number { PhoneNumber = "2" }, new Number { PhoneNumber = "0000000000003" } })
+                        Numbers = new List<Number>(new Number[] { new Number { PhoneNumber = "1" }, new Number { PhoneNumber = "2" }, new Number { PhoneNumber = "000000003" } })
                     }
                     );
+
                 context.SaveChanges();
             }
         }

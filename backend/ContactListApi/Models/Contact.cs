@@ -20,7 +20,7 @@ namespace ContactListApi.Models
         [MaxLength(30)]
         public string LastName { get; set; }
 
-        [MaxLength(320)]
+        [MaxLength(100)]
         [EmailAddress]
         public string Adress { get; set; }
 
@@ -45,7 +45,7 @@ namespace ContactListApi.Models
         [Key]
         public int EmailId { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(320)]
         [EmailAddress]
         public string EmailAdress { get; set; }
 
