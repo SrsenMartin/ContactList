@@ -28,7 +28,6 @@ namespace ContactListApi.Models
         public string LastName { get; set; }
 
         [MaxLength(100)]
-        [EmailAddress]
         public string Adress { get; set; }
 
         public virtual ICollection<Number> Numbers { get; set; }
@@ -70,7 +69,7 @@ namespace ContactListApi.Models
 
         [Required]
         [MaxLength(100)]
-        public string tagName { get; set; }
+        public string TagName { get; set; }
 
         public int ContactId { get; set; }
         public Contact Contact { get; set; }

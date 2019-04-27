@@ -24,7 +24,7 @@ namespace ContactListApi.Controllers
         [HttpGet]
         public IEnumerable<Contact> GetContacts()
         {   
-            return  _context.Contacts;
+            return  _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails);
         }
 
         // GET: api/Contact/5
@@ -36,14 +36,14 @@ namespace ContactListApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).ToListAsync();
 
             if (contact == null)
             {
                 return NotFound();
             }
 
-            return Ok(contact);
+            return Ok(contact.Where(cont => cont.ContactId == id));
         }
 
         // GET: api/Contact/5/Numbers
@@ -113,17 +113,13 @@ namespace ContactListApi.Controllers
             }
 
             var contactsIds = new List<int>();
-            var tags = await _context.Tags.Where(tag => tag.tagName.StartsWith(keyword)).ToListAsync();
+            var tags = await _context.Tags.Where(tag => tag.TagName.StartsWith(keyword)).ToListAsync();
             contactsIds.AddRange(tags.Select(tag => tag.ContactId));
             var contIds = await _context.Contacts.Where(contact => contact.Name.StartsWith(keyword) || contact.LastName.StartsWith(keyword)).ToListAsync();
             contactsIds.AddRange(contIds.Select(contact => contact.ContactId));
             var distEl = contactsIds.Distinct().ToList();
 
-            var contacts = await _context.Contacts.Where(contact => distEl.Contains(contact.ContactId)).ToListAsync();
-            foreach(Contact element in contacts)
-            {
-                element.Tags = new List<Tag>();
-            }
+            var contacts = await _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Where(contact => distEl.Contains(contact.ContactId)).ToListAsync();
 
             if (contacts == null)
             {
@@ -131,6 +127,82 @@ namespace ContactListApi.Controllers
             }
 
             return Ok(contacts);
+        }
+
+
+        private void updateChildren(Contact contact)
+        {
+            var toDeletetIds = _context.Numbers.Where(num => num.ContactId == contact.ContactId).Select(num => num.NumberId).ToList();
+            var newIds = contact.Numbers;
+
+            foreach(Number nn in newIds)
+            {
+                toDeletetIds.Remove(nn.NumberId);
+
+                if(nn.NumberId > 0)
+                {
+                    _context.Entry(nn).State = EntityState.Modified;
+                }
+                else
+                {
+                    nn.Contact = contact;
+                    nn.ContactId = contact.ContactId;
+                    _context.Numbers.Add(nn);
+                }
+            }
+            foreach(int id in toDeletetIds)
+            {
+                var num = _context.Numbers.Find(id);
+                _context.Numbers.Remove(num);
+            }
+
+            toDeletetIds = _context.Emails.Where(email => email.ContactId == contact.ContactId).Select(email => email.EmailId).ToList();
+            var newMails = contact.Emails;
+
+            foreach (Email nn in newMails)
+            {
+                toDeletetIds.Remove(nn.EmailId);
+
+                if (nn.EmailId > 0)
+                {
+                    _context.Entry(nn).State = EntityState.Modified;
+                }
+                else
+                {
+                    nn.Contact = contact;
+                    nn.ContactId = contact.ContactId;
+                    _context.Emails.Add(nn);
+                }
+            }
+            foreach (int id in toDeletetIds)
+            {
+                var email = _context.Emails.Find(id);
+                _context.Emails.Remove(email);
+            }
+
+            toDeletetIds = _context.Tags.Where(tag => tag.ContactId == contact.ContactId).Select(tag => tag.TagId).ToList();
+            var newTags = contact.Tags;
+
+            foreach (Tag nn in newTags)
+            {
+                toDeletetIds.Remove(nn.TagId);
+
+                if (nn.TagId > 0)
+                {
+                    _context.Entry(nn).State = EntityState.Modified;
+                }
+                else
+                {
+                    nn.Contact = contact;
+                    nn.ContactId = contact.ContactId;
+                    _context.Tags.Add(nn);
+                }
+            }
+            foreach (int id in toDeletetIds)
+            {
+                var tag = _context.Tags.Find(id);
+                _context.Tags.Remove(tag);
+            }
         }
 
         // PUT: api/Contact/5
@@ -148,6 +220,7 @@ namespace ContactListApi.Controllers
             }
 
             _context.Entry(contact).State = EntityState.Modified;
+            updateChildren(contact);
 
             try
             {
