@@ -1,3 +1,77 @@
-<p>
-  contacts-component works!
-</p>
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<div class="container" style="padding: 10px">
+  <div class="row">
+    <div class="col-sm-4">
+        <h1 style="margin-bottom: 20px;">Contacts</h1>
+        <button class="newC">New Contact</button>
+        <hr style="margin-top: 15px; margin-bottom: 15px;" />
+        <button class="contacts">Contacts</button>
+        <hr style="margin-top: 15px; margin-bottom: 15px;" />
+
+        <h2>Tags</h2>
+        <ul style="margin-left:-35px;">
+          <li id="lista" *ngFor="let t of tags">
+            <button style="margin-bottom:3px;" class="contacts">{{t.tagName}}</button>
+          </li>
+        </ul>
+    </div>
+    <div class="col-sm-8" style="margin-top:14px;">
+      <div class="row">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <div class="container">
+          <br />
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+              <form class="card card-sm">
+                <div class="card-body row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <i class="fas fa-search h4 text-body"></i>
+                  </div>
+                  <!--end of col-->
+                  <div class="col">
+                    <input class="form-control form-control-lg form-control-borderless" (input)="onSearchChange($event.target.value)" type="search" placeholder="Search name or last name">
+                  </div>
+                  <!--end of col-->
+                </div>
+              </form>
+            </div>
+            <!--end of col-->
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-10" style="margin-top: 34px;">
+        <div class="media">
+          <h6 class="align-self-center col-sm-3" style="margin-left:65px;">Name</h6>
+          <h6 class="align-self-center col-sm-6">Last Name</h6>
+          <h6 class="align-self-center col-sm-5">Adress</h6>
+        </div>
+
+      </div>
+
+      <hr style="margin-top: 5px; margin-bottom: 15px;" />
+      <div class="list-group">
+        <ul>
+          <li id="lista" *ngFor="let c of contacts">
+            <div class="row list-group-item list-group-item-action flex-column align-items-start">
+              <div class="col-sm-10">
+                <div class="media">
+                  <h2 class="align-self-center col-sm-3" style="margin-left:25px;">{{c.name}}</h2>
+                  <h2 class="align-self-center col-sm-6">{{c.lastName}}</h2>
+                  <h4 class="align-self-center col-sm-5">{{c.adress}}</h4>
+                </div>
+
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>

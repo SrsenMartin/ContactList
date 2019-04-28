@@ -11,7 +11,7 @@ import { Tag } from 'src/model/tag';
 export class ApiService {
   private URL = 'http://localhost:5000/api';
   private URL_CONTACT = `${this.URL}/Contact`;
-  private URL_TAG = `${this.URL}/Tags`;
+  private URL_TAG = `${this.URL}/Tag`;
 
 
   constructor(private http: HttpClient) { }
