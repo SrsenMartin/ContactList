@@ -13,7 +13,7 @@ namespace ContactListApi.Models
         {
             Numbers = new List<Number>();
             Emails = new List<Email>();
-            Tags = new List<Tag>();
+            ContactTags = new List<ContactTag>();
         }
 
         [Key]
@@ -32,7 +32,7 @@ namespace ContactListApi.Models
 
         public virtual ICollection<Number> Numbers { get; set; }
         public virtual ICollection<Email> Emails { get; set; }
-        public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<ContactTag> ContactTags { get; set; }
     }
 
     public class Number
@@ -71,7 +71,15 @@ namespace ContactListApi.Models
         [MaxLength(100)]
         public string TagName { get; set; }
 
+        public virtual ICollection<ContactTag> ContactTags { get; set; }
+    }
+
+    public class ContactTag
+    {
         public int ContactId { get; set; }
-        public Contact Contact { get; set; }
+        public Contact Contact { get; set;}
+
+        public int TagId { get; set; }
+        public Tag Tag { get; set; }
     }
 }

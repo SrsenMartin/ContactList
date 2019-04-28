@@ -39,6 +39,19 @@ namespace ContactListApi.Migrations
                     b.ToTable("Contacts");
                 });
 
+            modelBuilder.Entity("ContactListApi.Models.ContactTag", b =>
+                {
+                    b.Property<int>("ContactId");
+
+                    b.Property<int>("TagId");
+
+                    b.HasKey("ContactId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ContactTags");
+                });
+
             modelBuilder.Entity("ContactListApi.Models.Email", b =>
                 {
                     b.Property<int>("EmailId")
@@ -83,17 +96,26 @@ namespace ContactListApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ContactId");
-
-                    b.Property<string>("tagName")
+                    b.Property<string>("TagName")
                         .IsRequired()
                         .HasMaxLength(100);
 
                     b.HasKey("TagId");
 
-                    b.HasIndex("ContactId");
-
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("ContactListApi.Models.ContactTag", b =>
+                {
+                    b.HasOne("ContactListApi.Models.Contact", "Contact")
+                        .WithMany("ContactTags")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ContactListApi.Models.Tag", "Tag")
+                        .WithMany("ContactTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ContactListApi.Models.Email", b =>
@@ -108,14 +130,6 @@ namespace ContactListApi.Migrations
                 {
                     b.HasOne("ContactListApi.Models.Contact", "Contact")
                         .WithMany("Numbers")
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ContactListApi.Models.Tag", b =>
-                {
-                    b.HasOne("ContactListApi.Models.Contact", "Contact")
-                        .WithMany("Tags")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

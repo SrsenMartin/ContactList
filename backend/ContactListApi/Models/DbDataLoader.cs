@@ -30,22 +30,19 @@ namespace ContactListApi.Models
                         LastName="Antic",
                         Adress="Ulica 123",
                         Emails=new List<Email>(new Email[] { new Email { EmailAdress="ante.antic@gmail.com"}, new Email { EmailAdress="ante.antic222@hotmail.com"} }),
-                        Numbers=new List<Number>(new Number[] { new Number { PhoneNumber = "09999999999" }, new Number { PhoneNumber = "09111111111" } }),
-                        Tags=new List<Tag>(new Tag[] { new Tag { TagName="susjed"}, new Tag { TagName="moze proc"} })
+                        Numbers=new List<Number>(new Number[] { new Number { PhoneNumber = "09999999999" }, new Number { PhoneNumber = "09111111111" } })
                     },
                     new Contact
                     {
                         Name = "Mate",
                         LastName = "Matic",
-                        Emails = new List<Email>(new Email[] { new Email { EmailAdress = "mate.matic@gmail.com" }}),
-                        Tags = new List<Tag>(new Tag[] { new Tag { TagName = "Novi Zeland" }, new Tag { TagName = "reda radi" } })
+                        Emails = new List<Email>(new Email[] { new Email { EmailAdress = "mate.matic@gmail.com" }})
                     },
                     new Contact
                     {
                         Name = "Ivo",
                         Adress = "Ivina ulica 1",
-                        Numbers = new List<Number>(new Number[] { new Number { PhoneNumber = "09421321" }, new Number { PhoneNumber = "0942131242" }, new Number { PhoneNumber = "09777777" } }),
-                        Tags = new List<Tag>(new Tag[] { new Tag { TagName = "jedan jedini" }})
+                        Numbers = new List<Number>(new Number[] { new Number { PhoneNumber = "09421321" }, new Number { PhoneNumber = "0942131242" }, new Number { PhoneNumber = "09777777" } })
                     },
                     new Contact
                     {
@@ -59,8 +56,30 @@ namespace ContactListApi.Models
                         LastName = "Stijena",
                         Adress = "Vukovarska 999",
                         Emails = new List<Email>(new Email[] { new Email { EmailAdress = "petar@gmail.com" }, new Email { EmailAdress = "petar1@hotmail.com" }, new Email { EmailAdress = "pppp1@hotmail.com" } }),
-                        Numbers = new List<Number>(new Number[] { new Number { PhoneNumber = "1" }, new Number { PhoneNumber = "2" }, new Number { PhoneNumber = "000000003" } }),
-                        Tags = new List<Tag>(new Tag[] { new Tag { TagName = "stijena" }, new Tag { TagName = "covik" }, new Tag { TagName = "zvijer"} })
+                        Numbers = new List<Number>(new Number[] { new Number { PhoneNumber = "1" }, new Number { PhoneNumber = "2" }, new Number { PhoneNumber = "000000003" } })
+                    }
+                    );
+
+                context.Tags.AddRange(
+                    new Tag
+                    {
+                        TagName = "susjedi"
+                    },
+                    new Tag
+                    {
+                        TagName = "reda radi"
+                    },
+                    new Tag
+                    {
+                        TagName = "jedan jedini"
+                    },
+                    new Tag
+                    {
+                        TagName = "prijatelji"
+                    },
+                    new Tag
+                    {
+                        TagName = "ljudi"
                     }
                     );
 

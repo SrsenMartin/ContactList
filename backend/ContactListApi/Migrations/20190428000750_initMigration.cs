@@ -23,6 +23,19 @@ namespace ContactListApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    TagId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TagName = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.TagId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Emails",
                 columns: table => new
                 {
@@ -63,24 +76,33 @@ namespace ContactListApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tags",
+                name: "ContactTags",
                 columns: table => new
                 {
+                    ContactId = table.Column<int>(nullable: false),
                     TagId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    tagName = table.Column<string>(maxLength: 100, nullable: false),
-                    ContactId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.TagId);
+                    table.PrimaryKey("PK_ContactTags", x => new { x.ContactId, x.TagId });
                     table.ForeignKey(
-                        name: "FK_Tags_Contacts_ContactId",
+                        name: "FK_ContactTags_Contacts_ContactId",
                         column: x => x.ContactId,
                         principalTable: "Contacts",
                         principalColumn: "ContactId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ContactTags_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "TagId",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContactTags_TagId",
+                table: "ContactTags",
+                column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Emails_ContactId",
@@ -91,15 +113,13 @@ namespace ContactListApi.Migrations
                 name: "IX_Numbers_ContactId",
                 table: "Numbers",
                 column: "ContactId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tags_ContactId",
-                table: "Tags",
-                column: "ContactId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ContactTags");
+
             migrationBuilder.DropTable(
                 name: "Emails");
 

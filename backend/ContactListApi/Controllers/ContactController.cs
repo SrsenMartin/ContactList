@@ -24,7 +24,7 @@ namespace ContactListApi.Controllers
         [HttpGet]
         public IEnumerable<Contact> GetContacts()
         {   
-            return  _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails);
+            return  _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Include(c => c.ContactTags).OrderBy(cont => cont.Name).ToList();
         }
 
         // GET: api/Contact/5
@@ -36,7 +36,7 @@ namespace ContactListApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var contact = await _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).ToListAsync();
+            var contact = await _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Include(c => c.ContactTags).ToListAsync();
 
             if (contact == null)
             {
@@ -84,25 +84,6 @@ namespace ContactListApi.Controllers
             return Ok(emails);
         }
 
-        // GET: api/Contact/5/Tags
-        [HttpGet("{id}/Tags")]
-        public async Task<IActionResult> GetTags([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var tags = await _context.Tags.Where(tag => tag.ContactId == id).ToListAsync();
-
-            if (tags == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(tags);
-        }
-
         // GET: api/Contact/Search
         [HttpGet("Search/{keyword}")]
         public async Task<IActionResult> searchContact([FromRoute] string keyword)
@@ -113,20 +94,20 @@ namespace ContactListApi.Controllers
             }
 
             var contactsIds = new List<int>();
-            var tags = await _context.Tags.Where(tag => tag.TagName.StartsWith(keyword)).ToListAsync();
-            contactsIds.AddRange(tags.Select(tag => tag.ContactId));
+            var cts = await _context.ContactTags.Where(ct => ct.Tag.TagName.StartsWith(keyword)).ToListAsync();
+            contactsIds.AddRange(cts.Select(ct => ct.ContactId));
             var contIds = await _context.Contacts.Where(contact => contact.Name.StartsWith(keyword) || contact.LastName.StartsWith(keyword)).ToListAsync();
             contactsIds.AddRange(contIds.Select(contact => contact.ContactId));
             var distEl = contactsIds.Distinct().ToList();
 
-            var contacts = await _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Where(contact => distEl.Contains(contact.ContactId)).ToListAsync();
+            var contacts = await _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Include(c => c.ContactTags).Where(contact => distEl.Contains(contact.ContactId)).ToListAsync();
 
             if (contacts == null)
             {
                 return NotFound();
             }
 
-            return Ok(contacts);
+            return Ok(contacts.OrderBy(cont => cont.Name).ToList());
         }
 
 
@@ -178,30 +159,6 @@ namespace ContactListApi.Controllers
             {
                 var email = _context.Emails.Find(id);
                 _context.Emails.Remove(email);
-            }
-
-            toDeletetIds = _context.Tags.Where(tag => tag.ContactId == contact.ContactId).Select(tag => tag.TagId).ToList();
-            var newTags = contact.Tags;
-
-            foreach (Tag nn in newTags)
-            {
-                toDeletetIds.Remove(nn.TagId);
-
-                if (nn.TagId > 0)
-                {
-                    _context.Entry(nn).State = EntityState.Modified;
-                }
-                else
-                {
-                    nn.Contact = contact;
-                    nn.ContactId = contact.ContactId;
-                    _context.Tags.Add(nn);
-                }
-            }
-            foreach (int id in toDeletetIds)
-            {
-                var tag = _context.Tags.Find(id);
-                _context.Tags.Remove(tag);
             }
         }
 
