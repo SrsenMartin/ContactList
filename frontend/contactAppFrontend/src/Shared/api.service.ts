@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import { Contact } from 'src/model/contact';
 import { ContactDTO } from 'src/modelDTO/contact';
 import { Tag } from 'src/model/tag';
+import { TagDTO } from 'src/modelDTO/tag';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +43,9 @@ export class ApiService {
 
   getAllTags(): Observable<Tag[]> {
     return this.http.get<Tag[]>(this.URL_TAG);
+  }
+
+  createTag(tag: TagDTO): Observable<Tag> {
+    return this.http.post<Tag>(this.URL_TAG, tag);
   }
 }

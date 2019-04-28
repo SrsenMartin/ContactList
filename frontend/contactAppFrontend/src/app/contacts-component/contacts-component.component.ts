@@ -3,6 +3,7 @@ import { Contact } from 'src/model/contact';
 import { ApiService } from 'src/Shared/api.service';
 import { Tag } from 'src/model/tag';
 import { log } from 'util';
+import { TagDTO } from 'src/modelDTO/tag';
 
 @Component({
   selector: 'app-contacts-component',
@@ -41,11 +42,24 @@ export class ContactsComponentComponent implements OnInit {
       });
   }
 
+  public addTag() {
+    var tagName = <HTMLInputElement>document.getElementById('tagInput');
+    this.api.createTag(new TagDTO(tagName.value, null)).subscribe(
+      res => {
+        this.tags.push(res);
+        tagName.value = "";
+      },
+      err => {
+
+      }
+    );
+  }
+
   public onSearchChange(value: String) {
     if (value == null || value == "") {
       value = "*";
     }
-    log(value);
+
     this.api.search(value).subscribe(
       res => {
         this.contacts = res;

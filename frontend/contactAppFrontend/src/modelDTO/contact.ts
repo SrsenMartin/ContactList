@@ -9,4 +9,12 @@ export class ContactDTO {
   numbers: PhoneNumberDTO[];
   emails: EmailDTO[];
   contactTags: ContactTags[];
+
+  constructor(name: String, lastName: String, numbers: PhoneNumberDTO[], emails: EmailDTO[], contactTags: ContactTags[]) {
+    this.name = name;
+    this.lastName = lastName;
+    this.numbers = numbers;
+    this.emails = emails;
+    this.contactTags = contactTags;
+  }
 }
