@@ -1,0 +1,41 @@
+input[type=text], input[type=email], input[type=number], input[type=password], select, textarea {
+  margin: auto;
+  display: block;
+  width: 80%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+.realButton1 {
+  background-color: #4CAF50;
+  cursor: pointer;
+  margin-right: 15px;
+  width: 150px;
+}
+
+  .realButton1:hover {
+    background-color: #45a049;
+    cursor: pointer;
+  }
+
+.realButton2 {
+  background-color: rgb(194, 2, 2);
+  cursor: pointer;
+  margin-left: 15px;
+  width: 150px;
+}
+
+  .realButton2:hover {
+    background-color: #a10000;
+    cursor: pointer;
+  }

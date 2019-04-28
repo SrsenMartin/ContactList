@@ -4,6 +4,8 @@ import { ApiService } from 'src/Shared/api.service';
 import { Tag } from 'src/model/tag';
 import { log } from 'util';
 import { TagDTO } from 'src/modelDTO/tag';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { CreateContactComponent } from '../create-contact/create-contact.component';
 
 @Component({
   selector: 'app-contacts-component',
@@ -15,7 +17,7 @@ export class ContactsComponentComponent implements OnInit {
   contacts: Contact[] = []
   tags: Tag[] = []
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getAllContacts();
@@ -40,6 +42,37 @@ export class ContactsComponentComponent implements OnInit {
       err => {
 
       });
+  }
+
+  public updateContact(contact: Contact) {
+    console.log(contact);
+  }
+
+  public deleteContact(contact: Contact) {
+    this.api.deleteContact(String(contact.contactId)).subscribe(
+      res => {
+        this.contacts = this.contacts.filter(c => c.contactId != contact.contactId);
+      },
+      err => {
+
+      }
+    );
+  }
+
+  public viewContact(contact: Contact) {
+    console.log(contact);
+  }
+
+  public createPopup() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '30%';
+    this.dialog.open(CreateContactComponent, dialogConfig).afterClosed().subscribe(response => {
+      if (response) {
+        this.contacts.push(response.data);
+      }
+    });
   }
 
   public addTag() {

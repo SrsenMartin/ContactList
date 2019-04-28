@@ -34,7 +34,7 @@ export class ApiService {
   }
 
   deleteContact(contactId: String): Observable<Object> {
-    return this.http.get(this.URL_CONTACT + '/' + contactId);
+    return this.http.delete(this.URL_CONTACT + '/' + contactId);
   }
 
   search(filterString: String): Observable<Contact[]> {
