@@ -37,6 +37,10 @@ export class ApiService {
     return this.http.delete(this.URL_CONTACT + '/' + contactId);
   }
 
+  deleteTag(tagId: String): Observable<Object> {
+    return this.http.delete(this.URL_TAG + '/' + tagId);
+  }
+
   search(filterString: String): Observable<Contact[]> {
     return this.http.get<Contact[]>(this.URL_CONTACT + "/Search/" + filterString);
   }

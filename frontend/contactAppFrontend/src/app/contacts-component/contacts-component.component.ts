@@ -48,6 +48,21 @@ export class ContactsComponentComponent implements OnInit {
     console.log(contact);
   }
 
+  public filterTag(tag: Tag) {
+    console.log(tag);
+  }
+
+  public deleteTag(tag: Tag) {
+    this.api.deleteTag(String(tag.tagId)).subscribe(
+      res => {
+        this.tags = this.tags.filter(t => t.tagId != tag.tagId);
+      },
+      err => {
+
+      }
+    );
+  }
+
   public deleteContact(contact: Contact) {
     this.api.deleteContact(String(contact.contactId)).subscribe(
       res => {

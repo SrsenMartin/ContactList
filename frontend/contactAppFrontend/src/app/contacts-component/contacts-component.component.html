@@ -6,7 +6,7 @@
 
 <div class="container" style="padding: 10px">
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <h1 style="margin-bottom: 20px;">Contacts</h1>
         <button class="newC" (click)="createPopup()">New Contact</button>
         <hr style="margin-top: 15px; margin-bottom: 15px;" />
@@ -14,9 +14,18 @@
         <hr style="margin-top: 15px; margin-bottom: 15px;" />
 
         <h2>Tags</h2>
-        <ul style="margin-left:-35px;">
+        <ul style="margin-left:-55px;">
           <li id="lista" *ngFor="let t of tags">
-            <button style="margin-bottom:3px;" class="contacts">{{t.tagName}}</button>
+            <div style="margin-top:5px;" class="hover-cursor list-group-item-action flex-column align-items-start" (click)="filterTag(t)">
+              <div class="col-sm-10">
+                <div class="media">
+                  <i class="fa fa-battery-empty align-self-center col-sm-3" style="color:silver" aria-hidden="true"></i>
+                  <h5 class="align-self-center col-sm-10" style="margin-left:-10px;">{{t.tagName}}<span style="font-size:small"> (0)</span></h5>
+                  <i class="hover-cursor fa fa-trash align-self-center" aria-hidden="true" style="color:gainsboro; margin-left: 15px;" (click)="deleteTag(t);$event.stopPropagation()"></i>
+
+                </div>
+              </div>
+            </div>
           </li>
         </ul>
         <div class="row">
@@ -24,7 +33,7 @@
           <button class="newC" style="padding: 5px;" (click)="addTag()">+</button>
         </div>
     </div>
-    <div class="col-sm-8" style="margin-top:14px;">
+    <div class="col-sm-9" style="margin-top:14px;">
       <div class="row">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
         <div class="container">
@@ -62,14 +71,14 @@
       <div class="list-group">
         <ul>
           <li id="lista" *ngFor="let c of contacts">
-            <div class="hover-cursor list-group-item list-group-item-action flex-column align-items-start" (click)="viewContact(c)">
+            <div style="margin-top:3px;" class="hover-cursor list-group-item list-group-item-action flex-column align-items-start" (click)="viewContact(c)">
               <div class="col-sm-10">
                 <div class="media">
                   <h3 class="align-self-center col-sm-3">{{c.name}}</h3>
                   <h3 class="align-self-center col-sm-5">{{c.lastName}}</h3>
                   <h5 class="align-self-center col-sm-6">{{c.adress}}</h5>
-                  <i class="fa fa-paint-brush align-self-center" aria-hidden="true" (click)="updateContact(c);$event.stopPropagation()"></i>
-                  <i class="hover-cursor fa fa-trash align-self-center" aria-hidden="true" style="color: black; margin-left: 15px;" (click)="deleteContact(c);$event.stopPropagation()"></i>
+                  <i class="fa fa-paint-brush align-self-center" aria-hidden="true" style="color: cornflowerblue;" (click)="updateContact(c);$event.stopPropagation()"></i>
+                  <i class="hover-cursor fa fa-trash align-self-center" aria-hidden="true" style="color: red; margin-left: 15px;" (click)="deleteContact(c);$event.stopPropagation()"></i>
 
                 </div>
               </div>
