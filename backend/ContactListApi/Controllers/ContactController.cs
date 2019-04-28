@@ -92,10 +92,12 @@ namespace ContactListApi.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if(keyword == "*")
+            {
+                return Ok(_context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Include(c => c.ContactTags));
+            }
 
             var contactsIds = new List<int>();
-            var cts = await _context.ContactTags.Where(ct => ct.Tag.TagName.StartsWith(keyword)).ToListAsync();
-            contactsIds.AddRange(cts.Select(ct => ct.ContactId));
             var contIds = await _context.Contacts.Where(contact => contact.Name.StartsWith(keyword) || contact.LastName.StartsWith(keyword)).ToListAsync();
             contactsIds.AddRange(contIds.Select(contact => contact.ContactId));
             var distEl = contactsIds.Distinct().ToList();

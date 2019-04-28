@@ -29,6 +29,13 @@ namespace ContactListApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options =>
      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddDbContext<ContactContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("ContactContext"))
             );
@@ -42,6 +49,7 @@ namespace ContactListApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("MyPolicy");
             app.UseMvc();
         }
     }
