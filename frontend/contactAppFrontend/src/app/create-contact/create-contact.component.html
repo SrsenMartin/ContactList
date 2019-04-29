@@ -1,10 +1,41 @@
 <div style="margin-top:10px; text-align:center">
-    <h5 style="font-weight: bold;">Contact</h5><br />
+  <h5 style="font-weight: bold;">Contact</h5><br />
 
-    <input type="text" id="name" name="name" placeholder="Name"><br>
-    <input type="text" id="lastName" name="lastName" placeholder="Last name"><br>
-    <input type="text" id="adress" name="adress" placeholder="Adress"><br>
+  <input type="text" id="name" name="name" placeholder="Name" class="form-control"><br>
+  <p *ngIf="(error)" style="color: red; margin-top: -15px;">Name must have at least 2 characters</p>
+  <input type="text" id="lastName" name="lastName" placeholder="Last name" class="form-control"><br>
+  <input type="text" id="adress" name="adress" placeholder="Adress" class="form-control"><br>
 
-    <input class="btn btn-outline-success waves-effect" type="submit" value="Submit Advert" (click)="onSubmit()" style="margin-right:30px;">
-    <input (click)="onClose()" class="btn btn-outline-danger waves-effect" type="submit" value="Cancel">
-</div>
+  <div class="row">
+
+      <div class=" col-md-6" [formGroup]="myPhoneForm">
+    <div formArrayName="phoneNumbers"
+         *ngFor="let item of myPhoneForm.controls.phoneNumbers.controls; let i = index;last as isLast">
+      <div [formGroupName]="i">
+        <div class="media align-self-center">
+          <input style="margin-right: -5px; margin-bottom:2px;" formControlName="phoneNumber" class="form-control align-self-center" type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone">
+          <i *ngIf="(isLast)" (click)="addPhoneField()" style="margin-right: -30px;" class="hover-cursor fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
+          <i *ngIf="(!isLast)" style="margin-right: -30px; color:white" class="fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+          <div class=" col-md-6" [formGroup]="myEmailForm">
+    <div formArrayName="emails"
+         *ngFor="let item of myEmailForm.controls.emails.controls; let i = index;last as isLast">
+      <div [formGroupName]="i">
+        <div class="media align-self-center">
+          <input style="margin-right: -5px; margin-bottom:2px;" formControlName="email" class="form-control align-self-center" type="email" id="email" name="email" placeholder="Email">
+          <i *ngIf="(isLast)" (click)="addEmailField()" style="margin-right: -15px;" class="hover-cursor fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
+          <i *ngIf="(!isLast)" style="margin-right: -15px; color:white" class="fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+
+  <input class="btn btn-info" type="submit" value="Submit Advert" (click)="onSubmit()" style="margin-right:30px;">
+  <input (click)="onClose()" class="btn btn-danger" type="submit" value="Cancel">
+
+  </div>

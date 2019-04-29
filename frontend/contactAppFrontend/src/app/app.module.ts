@@ -7,8 +7,10 @@ import { ContactsComponentComponent } from './contacts-component/contacts-compon
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateContactComponent } from './create-contact/create-contact.component';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatDialogRef } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { UpdateContactComponent } from './update-contact/update-contact.component';
 
 const appRoutes: Routes = [
   {
@@ -26,7 +28,8 @@ const appRoutes: Routes = [
     AppComponent,
     ContactsComponentComponent,
     NotFoundComponent,
-    CreateContactComponent
+    CreateContactComponent,
+    UpdateContactComponent
   ],
   imports: [
     BrowserModule,
@@ -34,10 +37,12 @@ const appRoutes: Routes = [
     HttpClientModule,
     MatDialogModule,
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [CreateContactComponent]
+  entryComponents: [CreateContactComponent, UpdateContactComponent]
 })
 export class AppModule { }

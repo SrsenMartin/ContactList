@@ -25,6 +25,8 @@ export class ContactsComponentComponent implements OnInit {
   }
 
   public getAllContacts() {
+    var searchFilter = <HTMLInputElement>document.getElementById('searchFilter');
+    searchFilter.value = "";
     this.api.getAllContacts().subscribe(
       res => {
         this.contacts = res;
@@ -80,7 +82,7 @@ export class ContactsComponentComponent implements OnInit {
 
   public createPopup() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
+    dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '30%';
     this.dialog.open(CreateContactComponent, dialogConfig).afterClosed().subscribe(response => {
@@ -92,7 +94,7 @@ export class ContactsComponentComponent implements OnInit {
 
   public addTag() {
     var tagName = <HTMLInputElement>document.getElementById('tagInput');
-    this.api.createTag(new TagDTO(tagName.value, null)).subscribe(
+    this.api.createTag(new TagDTO(tagName.value)).subscribe(
       res => {
         this.tags.push(res);
         tagName.value = "";

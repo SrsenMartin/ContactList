@@ -10,7 +10,7 @@
         <h1 style="margin-bottom: 20px;">Contacts</h1>
         <button class="newC" (click)="createPopup()">New Contact</button>
         <hr style="margin-top: 15px; margin-bottom: 15px;" />
-        <button class="contacts">Contacts</button>
+        <button class="contacts" (click)="getAllContacts()">Contacts</button>
         <hr style="margin-top: 15px; margin-bottom: 15px;" />
 
         <h2>Tags</h2>
@@ -47,7 +47,7 @@
                   </div>
                   <!--end of col-->
                   <div class="col">
-                    <input class="form-control form-control-lg form-control-borderless" (input)="onSearchChange($event.target.value)" type="search" placeholder="Search name or last name">
+                    <input id="searchFilter" class="form-control form-control-lg form-control-borderless" (input)="onSearchChange($event.target.value)" type="search" placeholder="Search name or last name">
                   </div>
                   <!--end of col-->
                 </div>
