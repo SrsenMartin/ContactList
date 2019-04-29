@@ -90,6 +90,11 @@ namespace ContactListApi.Controllers
                 return BadRequest(ModelState);
             }
 
+            if(_context.Tags.Any(e => e.TagName == tag.TagName))
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.Tags.Add(tag);
             await _context.SaveChangesAsync();
 

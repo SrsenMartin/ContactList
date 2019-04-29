@@ -178,6 +178,25 @@ namespace ContactListApi.Controllers
                 return BadRequest();
             }
 
+            var nums = new List<Number>();
+            var ems = new List<Email>();
+            foreach (var num in contact.Numbers)
+            {
+                if (!nums.Any(n => n.PhoneNumber == num.PhoneNumber))
+                {
+                    nums.Add(num);
+                }
+            }
+            foreach (var em in contact.Emails)
+            {
+                if (!ems.Any(e => e.EmailAdress == em.EmailAdress))
+                {
+                    ems.Add(em);
+                }
+            }
+
+            contact.Numbers = nums;
+            contact.Emails = ems;
             _context.Entry(contact).State = EntityState.Modified;
             updateChildren(contact);
 
@@ -204,11 +223,25 @@ namespace ContactListApi.Controllers
         [HttpPost]
         public async Task<IActionResult> PostContact([FromBody] Contact contact)
         {
-            if (!ModelState.IsValid)
+            var nums = new List<Number>();
+            var ems = new List<Email>();
+            foreach(var num in contact.Numbers)
             {
-                return BadRequest(ModelState);
+                if(!nums.Any(n => n.PhoneNumber == num.PhoneNumber))
+                {
+                    nums.Add(num);
+                }
+            }
+            foreach (var em in contact.Emails)
+            {
+                if (!ems.Any(e => e.EmailAdress == em.EmailAdress))
+                {
+                    ems.Add(em);
+                }
             }
 
+            contact.Numbers = nums;
+            contact.Emails = ems;
             _context.Contacts.Add(contact);
             await _context.SaveChangesAsync();
 

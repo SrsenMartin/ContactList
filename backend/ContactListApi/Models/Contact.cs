@@ -54,8 +54,8 @@ namespace ContactListApi.Models
         public int EmailId { get; set; }
 
         [MaxLength(320)]
-        [EmailAddress]
         [Required]
+        [EmailAddress]
         public string EmailAdress { get; set; }
 
         public int ContactId { get; set; }
