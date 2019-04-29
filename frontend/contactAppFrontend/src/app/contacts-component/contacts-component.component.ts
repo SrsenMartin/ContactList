@@ -7,6 +7,7 @@ import { TagDTO } from 'src/modelDTO/tag';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { CreateContactComponent } from '../create-contact/create-contact.component';
 import { UpdateContactComponent } from '../update-contact/update-contact.component';
+import { UpdateTagComponent } from '../update-tag/update-tag.component';
 
 @Component({
   selector: 'app-contacts-component',
@@ -75,6 +76,23 @@ export class ContactsComponentComponent implements OnInit {
 
   public viewContact(contact: Contact) {
     console.log(contact);
+  }
+
+  public updateTag(tag: Tag) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '20%';
+    dialogConfig.data = {
+      tag: tag
+    };
+    this.dialog.open(UpdateTagComponent, dialogConfig).afterClosed().subscribe(response => {
+      if (response) {
+        var t = response.data;
+        var et = this.tags.find(x => x.tagId == t.tagId);
+        et.tagName = t.tagName;
+      }
+    });
   }
 
   public createPopup() {

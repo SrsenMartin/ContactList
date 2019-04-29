@@ -29,6 +29,10 @@ export class ApiService {
     return this.http.put<Contact>(this.URL_CONTACT + '/' + contact.contactId, contact);
   }
 
+  updateTag(tag: Tag): Observable<Tag> {
+    return this.http.put<Tag>(this.URL_TAG + "/" + tag.tagId, tag);
+  }
+
   createContact(contact: ContactDTO): Observable<Contact> {
     return this.http.post<Contact>(this.URL_CONTACT, contact);
   }

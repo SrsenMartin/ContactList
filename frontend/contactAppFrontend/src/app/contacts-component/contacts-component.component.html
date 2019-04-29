@@ -21,7 +21,8 @@
                 <div class="media">
                   <i class="fa fa-battery-empty align-self-center col-sm-3" style="color:silver" aria-hidden="true"></i>
                   <h5 class="align-self-center col-sm-10" style="margin-left:-10px;">{{t.tagName}}<span style="font-size:small"> (0)</span></h5>
-                  <i class="hover-cursor fa fa-trash align-self-center" aria-hidden="true" style="color:gainsboro; margin-left: 15px;" (click)="deleteTag(t);$event.stopPropagation()"></i>
+                  <i class="fa fa-paint-brush align-self-center" aria-hidden="true" style="color: gainsboro;" (click)="updateTag(t);$event.stopPropagation()"></i>
+                  <i class="hover-cursor fa fa-trash align-self-center" aria-hidden="true" style="color:gainsboro; margin-left: 10px;" (click)="deleteTag(t);$event.stopPropagation()"></i>
 
                 </div>
               </div>
@@ -29,7 +30,7 @@
           </li>
         </ul>
         <div class="row">
-          <input type="text" id="tagInput" placeholder="Tag name" style="margin-left:20px;"/>
+          <input type="text" id="tagInput" placeholder="Tag name" style="margin-left:20px; width:70%"/>
           <button class="newC" style="padding: 5px;" (click)="addTag()">+</button>
         </div>
     </div>

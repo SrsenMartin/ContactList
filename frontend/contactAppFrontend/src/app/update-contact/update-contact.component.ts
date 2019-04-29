@@ -150,7 +150,7 @@ export class UpdateContactComponent implements OnInit {
       }
     }
 
-    const contact = new Contact(this.data.id, nameInput.value, lastNameInput.value, adressInput.value, phones, emails, null)
+    const contact = new Contact(this.data.id, nameInput.value, lastNameInput.value, adressInput.value, phones, emails, null);
 
     this.api.updateContact(contact).subscribe(
       c => {

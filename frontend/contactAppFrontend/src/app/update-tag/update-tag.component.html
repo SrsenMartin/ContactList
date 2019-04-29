@@ -1,0 +1,11 @@
+<div style="margin-top:10px; text-align:center">
+  <h5 style="font-weight: bold;">Tag</h5><br />
+
+  <input type="text" id="name" name="name" placeholder="Tag Name">
+  <p *ngIf="(error)" style="color: red; margin-top: -15px;">Tag name can not be empty</p>
+
+  <br /><br />
+  <input class="btn btn-info" type="submit" value="Update Tag" (click)="onSubmit()" style="margin-right:30px;">
+  <input (click)="onClose()" class="btn btn-danger" type="submit" value="Cancel">
+
+</div>

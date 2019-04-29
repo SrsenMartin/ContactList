@@ -11,6 +11,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UpdateContactComponent } from './update-contact/update-contact.component';
+import { UpdateTagComponent } from './update-tag/update-tag.component';
 
 const appRoutes: Routes = [
   {
@@ -29,7 +30,8 @@ const appRoutes: Routes = [
     ContactsComponentComponent,
     NotFoundComponent,
     CreateContactComponent,
-    UpdateContactComponent
+    UpdateContactComponent,
+    UpdateTagComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +45,6 @@ const appRoutes: Routes = [
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [CreateContactComponent, UpdateContactComponent]
+  entryComponents: [CreateContactComponent, UpdateContactComponent, UpdateTagComponent]
 })
 export class AppModule { }
