@@ -16,5 +16,6 @@ export class ContactDTO {
     this.numbers = numbers;
     this.emails = emails;
     this.contactTags = contactTags;
+    this.adress = adress;
   }
 }

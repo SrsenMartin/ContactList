@@ -6,6 +6,7 @@ import { log } from 'util';
 import { TagDTO } from 'src/modelDTO/tag';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { CreateContactComponent } from '../create-contact/create-contact.component';
+import { UpdateContactComponent } from '../update-contact/update-contact.component';
 
 @Component({
   selector: 'app-contacts-component',
@@ -46,10 +47,6 @@ export class ContactsComponentComponent implements OnInit {
       });
   }
 
-  public updateContact(contact: Contact) {
-    console.log(contact);
-  }
-
   public filterTag(tag: Tag) {
     console.log(tag);
   }
@@ -84,10 +81,36 @@ export class ContactsComponentComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '30%';
+    dialogConfig.width = '60%';
     this.dialog.open(CreateContactComponent, dialogConfig).afterClosed().subscribe(response => {
       if (response) {
         this.contacts.push(response.data);
+      }
+    });
+  }
+
+  public updatePopup(contact: Contact) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    dialogConfig.data = {
+      id: contact.contactId,
+      name: contact.name,
+      lastName: contact.lastName,
+      adress: contact.adress,
+      numbers: contact.numbers,
+      emails: contact.emails
+    };
+    this.dialog.open(UpdateContactComponent, dialogConfig).afterClosed().subscribe(response => {
+      if (response) {
+        var cont = response.data;
+        var el = this.contacts.find(c => c.contactId == cont.contactId);
+        el.name = cont.name;
+        el.lastName = cont.lastName;
+        el.adress = cont.adress;
+        el.numbers = cont.numbers;
+        el.emails = cont.emails;
       }
     });
   }

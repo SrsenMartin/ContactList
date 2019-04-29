@@ -13,7 +13,7 @@
          *ngFor="let item of myPhoneForm.controls.phoneNumbers.controls; let i = index;last as isLast">
       <div [formGroupName]="i">
         <div class="media align-self-center">
-          <input style="margin-right: -5px; margin-bottom:2px;" formControlName="phoneNumber" class="form-control align-self-center" type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone">
+          <input style="margin-right: -25px; margin-bottom:2px;" formControlName="phoneNumber" class="form-control align-self-center" type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone">
           <i *ngIf="(isLast)" (click)="addPhoneField()" style="margin-right: -30px;" class="hover-cursor fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
           <i *ngIf="(!isLast)" style="margin-right: -30px; color:white" class="fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
         </div>
@@ -26,7 +26,7 @@
          *ngFor="let item of myEmailForm.controls.emails.controls; let i = index;last as isLast">
       <div [formGroupName]="i">
         <div class="media align-self-center">
-          <input style="margin-right: -5px; margin-bottom:2px;" formControlName="email" class="form-control align-self-center" type="email" id="email" name="email" placeholder="Email">
+          <input style="margin-right: -25px; margin-bottom:2px;" formControlName="email" class="form-control align-self-center" type="email" id="email" name="email" placeholder="Email">
           <i *ngIf="(isLast)" (click)="addEmailField()" style="margin-right: -15px;" class="hover-cursor fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
           <i *ngIf="(!isLast)" style="margin-right: -15px; color:white" class="fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
         </div>
@@ -35,7 +35,8 @@
   </div>
     </div>
 
-  <input class="btn btn-info" type="submit" value="Submit Advert" (click)="onSubmit()" style="margin-right:30px;">
+  <br />
+  <input class="btn btn-info" type="submit" value="Submit Contact" (click)="onSubmit()" style="margin-right:30px;">
   <input (click)="onClose()" class="btn btn-danger" type="submit" value="Cancel">
 
   </div>
