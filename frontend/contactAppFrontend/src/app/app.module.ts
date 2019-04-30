@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UpdateContactComponent } from './update-contact/update-contact.component';
 import { UpdateTagComponent } from './update-tag/update-tag.component';
+import { ViewComponentComponent } from './view-component/view-component.component';
 
 const appRoutes: Routes = [
   {
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
     NotFoundComponent,
     CreateContactComponent,
     UpdateContactComponent,
-    UpdateTagComponent
+    UpdateTagComponent,
+    ViewComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,6 @@ const appRoutes: Routes = [
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [CreateContactComponent, UpdateContactComponent, UpdateTagComponent]
+  entryComponents: [CreateContactComponent, UpdateContactComponent, UpdateTagComponent, ViewComponentComponent]
 })
 export class AppModule { }

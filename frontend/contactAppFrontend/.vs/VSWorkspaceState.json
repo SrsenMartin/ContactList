@@ -5,10 +5,12 @@
     "\\src\\app",
     "\\src\\app\\contacts-component",
     "\\src\\app\\create-contact",
+    "\\src\\app\\update-contact",
+    "\\src\\app\\update-tag",
+    "\\src\\app\\view-component",
     "\\src\\model",
-    "\\src\\modelDTO",
-    "\\src\\Shared"
+    "\\src\\modelDTO"
   ],
-  "SelectedNode": "\\src\\app\\app.module.ts",
+  "SelectedNode": "\\src\\app\\contacts-component\\contacts-component.component.html",
   "PreviewInSolutionExplorer": false
 }

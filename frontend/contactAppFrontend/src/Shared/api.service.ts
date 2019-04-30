@@ -5,6 +5,7 @@ import { Contact } from 'src/model/contact';
 import { ContactDTO } from 'src/modelDTO/contact';
 import { Tag } from 'src/model/tag';
 import { TagDTO } from 'src/modelDTO/tag';
+import { ContactTags } from 'src/model/contactTags';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,14 @@ export class ApiService {
     return this.http.get<Contact>(this.URL_CONTACT + '/' + contactId);
   }
 
+  getContactsByTag(tagId: String): Observable<Contact[]> {
+    return this.http.get<Contact[]>(this.URL_TAG + '/' + tagId + "/Contacts");
+  }
+
+  getTagsByContact(contactId: String): Observable<Tag[]> {
+    return this.http.get<Tag[]>(this.URL_CONTACT + '/' + contactId + "/Tags");
+  }
+
   updateContact(contact: Contact): Observable<Contact> {
     return this.http.put<Contact>(this.URL_CONTACT + '/' + contact.contactId, contact);
   }
@@ -39,6 +48,10 @@ export class ApiService {
 
   deleteContact(contactId: String): Observable<Object> {
     return this.http.delete(this.URL_CONTACT + '/' + contactId);
+  }
+
+  addContactsToTag(tagId: String, contactIds: String[]): Observable<ContactTags[]> {
+    return this.http.post<ContactTags[]>(this.URL_TAG + "/AddContacts/" + tagId, contactIds);
   }
 
   deleteTag(tagId: String): Observable<Object> {

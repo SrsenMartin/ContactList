@@ -1,0 +1,37 @@
+ul {
+  list-style-type: none;
+}
+
+.global{
+  margin-top: 10px;
+  margin-left: 5%;
+}
+
+.tagField {
+  margin-right: 10px;
+  background: gainsboro;
+  padding: 3px;
+}
+
+.cDetails {
+  margin-left: 30px;
+  margin-top: 20px;
+}
+
+.icons {
+  color: silver;
+}
+
+.detailsText{
+  margin-left: 7%;
+  margin-top: -2px;
+}
+
+.listMove{
+  margin-left: -39px;
+  margin-top: 10px;
+}
+
+.itemsAlign{
+  margin-bottom:7px;
+}

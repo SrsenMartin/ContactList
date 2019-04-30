@@ -1,0 +1,36 @@
+<div class="global">
+  <h3>{{contact.name}} {{contact.lastName}}</h3>
+
+  <ul class="row" style="margin-left:-30px; margin-top: 20px;">
+    <li id="lista" *ngFor="let t of tags">
+      <h6 class="tagField">{{t.tagName}}</h6>
+    </li>
+  </ul>
+
+  <hr />
+
+  <h5>Contact details</h5>
+  <div class="cDetails">
+    <div class="row" style="margin-bottom: 7px;">
+      <i class="icons fa fa-home" aria-hidden="true"></i>
+      <h6 class="detailsText">{{contact.adress}}</h6>
+    </div>
+
+    <ul class="listMove">
+      <li class="row itemsAlign" id="lista" *ngFor="let e of contact.emails; let first = first">
+        <i *ngIf="(first)" class="icons fa fa-envelope" aria-hidden="true"></i>
+        <i *ngIf="(!first)" class="fa fa-envelope" style="color:white" aria-hidden="true"></i>
+        <h6 class="detailsText">{{e.emailAdress}}</h6>
+      </li>
+    </ul>
+
+    <ul class="listMove">
+      <li class="row itemsAlign" id="lista" *ngFor="let n of contact.numbers; let first = first">
+        <i *ngIf="(first)" class="icons fa fa-phone" aria-hidden="true"></i>
+        <i *ngIf="(!first)" class="fa fa-phone" style="color:white" aria-hidden="true"></i>
+        <h6 class="detailsText">{{n.phoneNumber}}</h6>
+      </li>
+    </ul>
+
+  </div>
+</div>

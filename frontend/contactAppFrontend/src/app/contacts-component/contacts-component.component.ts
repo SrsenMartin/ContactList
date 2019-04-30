@@ -8,6 +8,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { CreateContactComponent } from '../create-contact/create-contact.component';
 import { UpdateContactComponent } from '../update-contact/update-contact.component';
 import { UpdateTagComponent } from '../update-tag/update-tag.component';
+import { ViewComponentComponent } from '../view-component/view-component.component';
+import { ContactTags } from 'src/model/contactTags';
 
 @Component({
   selector: 'app-contacts-component',
@@ -16,8 +18,10 @@ import { UpdateTagComponent } from '../update-tag/update-tag.component';
 })
 export class ContactsComponentComponent implements OnInit {
 
-  contacts: Contact[] = []
-  tags: Tag[] = []
+  contacts: Contact[] = [];
+  tags: Tag[] = [];
+  showTags: boolean = false;
+  currShow: String = "Contacts";
 
   constructor(private api: ApiService, private dialog: MatDialog) { }
 
@@ -32,6 +36,8 @@ export class ContactsComponentComponent implements OnInit {
     this.api.getAllContacts().subscribe(
       res => {
         this.contacts = res;
+        this.currShow = "Contacts";
+        this.showTags = false;
       },
       err => {
 
@@ -49,13 +55,22 @@ export class ContactsComponentComponent implements OnInit {
   }
 
   public filterTag(tag: Tag) {
-    console.log(tag);
+    this.api.getContactsByTag(String(tag.tagId)).subscribe(
+      res => {
+        this.contacts = res;
+        this.currShow = tag.tagName;
+        this.showTags = false;
+      },
+      err => {
+
+      });
   }
 
   public deleteTag(tag: Tag) {
     this.api.deleteTag(String(tag.tagId)).subscribe(
       res => {
         this.tags = this.tags.filter(t => t.tagId != tag.tagId);
+        if (this.currShow == tag.tagName) this.getAllContacts();
       },
       err => {
 
@@ -67,6 +82,31 @@ export class ContactsComponentComponent implements OnInit {
     this.api.deleteContact(String(contact.contactId)).subscribe(
       res => {
         this.contacts = this.contacts.filter(c => c.contactId != contact.contactId);
+        this.check();
+      },
+      err => {
+
+      }
+    );
+  }
+
+  public addSelected(tag: Tag) {
+    var items = [];
+    for (let i = 0; i < this.contacts.length; i++) {
+      var parentBox = <HTMLInputElement>document.getElementById(String(this.contacts[i].contactId));
+      if (parentBox.checked) {
+        items.push(String(this.contacts[i].contactId));
+      }
+
+    }
+
+    this.api.addContactsToTag(String(tag.tagId), items).subscribe(
+      res => {
+        console.log(res);
+        var t = this.tags.find(curr => curr.tagId == tag.tagId);
+        for (let i = 0; i < res.length; i++) {
+          t.contactTags.push(res[i]);
+        }
       },
       err => {
 
@@ -75,7 +115,27 @@ export class ContactsComponentComponent implements OnInit {
   }
 
   public viewContact(contact: Contact) {
-    console.log(contact);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.data = {
+      contact: contact
+    };
+    this.dialog.open(ViewComponentComponent, dialogConfig);
+  }
+
+  public check() {
+    var show = false;
+    for (let i = 0; i < this.contacts.length; i++) {
+      var parentBox = <HTMLInputElement>document.getElementById(String(this.contacts[i].contactId));
+      if (parentBox.checked) {
+        show = true;
+        break;
+      }
+
+    }
+    this.showTags = show;
   }
 
   public updateTag(tag: Tag) {
@@ -84,12 +144,13 @@ export class ContactsComponentComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '20%';
     dialogConfig.data = {
-      tag: tag
+      tag: new Tag(tag.tagId, tag.tagName)
     };
     this.dialog.open(UpdateTagComponent, dialogConfig).afterClosed().subscribe(response => {
       if (response) {
         var t = response.data;
         var et = this.tags.find(x => x.tagId == t.tagId);
+        if (this.currShow == et.tagName) this.currShow = t.tagName;
         et.tagName = t.tagName;
       }
     });
@@ -137,6 +198,7 @@ export class ContactsComponentComponent implements OnInit {
     var tagName = <HTMLInputElement>document.getElementById('tagInput');
     this.api.createTag(new TagDTO(tagName.value)).subscribe(
       res => {
+        res.contactTags = []
         this.tags.push(res);
         tagName.value = "";
       },
@@ -148,12 +210,19 @@ export class ContactsComponentComponent implements OnInit {
 
   public onSearchChange(value: String) {
     if (value == null || value == "") {
-      value = "*";
+      this.getAllContacts();
+      return;
+    }
+    if (value == "*") {
+      if (this.currShow != "Contacts") this.getAllContacts();
+      return;
     }
 
     this.api.search(value).subscribe(
       res => {
         this.contacts = res;
+        this.currShow = value;
+        this.showTags = false;
       },
       err => {
 

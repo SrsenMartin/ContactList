@@ -36,7 +36,7 @@ export class UpdateTagComponent implements OnInit {
 
     this.api.updateTag(tag).subscribe(
       t => {
-        this.dialogRef.close({ data: t });
+        this.dialogRef.close({ data: tag });
       },
       error1 => {
         console.log(error1);

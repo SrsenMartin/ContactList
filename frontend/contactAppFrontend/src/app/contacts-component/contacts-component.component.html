@@ -20,7 +20,7 @@
               <div class="col-sm-10">
                 <div class="media">
                   <i class="fa fa-battery-empty align-self-center col-sm-3" style="color:silver" aria-hidden="true"></i>
-                  <h5 class="align-self-center col-sm-10" style="margin-left:-10px;">{{t.tagName}}<span style="font-size:small"> (0)</span></h5>
+                  <h5 class="align-self-center col-sm-10" style="margin-left:-10px;">{{t.tagName}}<span style="font-size:small"> ({{t.contactTags.length}})</span></h5>
                   <i class="fa fa-paint-brush align-self-center" aria-hidden="true" style="color: gainsboro;" (click)="updateTag(t);$event.stopPropagation()"></i>
                   <i class="hover-cursor fa fa-trash align-self-center" aria-hidden="true" style="color:gainsboro; margin-left: 10px;" (click)="deleteTag(t);$event.stopPropagation()"></i>
 
@@ -60,24 +60,35 @@
       </div>
 
       <div class="col-sm-10" style="margin-top: 34px;">
-        <div class="media">
-          <h6 class="align-self-center col-sm-3" style="margin-left:70px;">Name</h6>
-          <h6 class="align-self-center col-sm-6" style="margin-left: -15px;">Last Name</h6>
-          <h6 class="align-self-center col-sm-5" style="margin-left: -30px;">Adress</h6>
+        <div *ngIf="(!showTags)" class="media">
+          <h6 class="align-self-center col-sm-5" style="margin-left:80px;">Full Name</h6>
+          <h6 class="align-self-center col-sm-3" style="margin-left: 10px;">Adress</h6>
+          <h6 class="align-self-center col-sm-5" style="margin-left: 15px;">Phone Number</h6>
+        </div>
+
+        <div *ngIf="(showTags)">
+          <ul class="row">
+            <li id="lista" *ngFor="let t of tags">
+              <button (click)="addSelected(t)" class="contacts" style="margin-left:3px;" id="{{t.tagId}}">+ {{t.tagName}}</button>
+            </li>
+          </ul>
         </div>
 
       </div>
 
       <hr style="margin-top: 5px; margin-bottom: 15px;" />
+      <h6 style="margin-left:20px;">{{currShow}} ({{contacts.length}})</h6>
       <div class="list-group">
         <ul>
           <li id="lista" *ngFor="let c of contacts">
             <div style="margin-top:3px;" class="hover-cursor list-group-item list-group-item-action flex-column align-items-start" (click)="viewContact(c)">
               <div class="col-sm-10">
                 <div class="media">
-                  <h3 class="align-self-center col-sm-3">{{c.name}}</h3>
-                  <h3 class="align-self-center col-sm-5">{{c.lastName}}</h3>
-                  <h5 class="align-self-center col-sm-6">{{c.adress}}</h5>
+                  <input style="margin-left: -15px; margin-right: 10px;" name={{c.contactId}} type="checkbox" id="{{c.contactId}}" (click)="check();$event.stopPropagation()" class=" align-self-center">
+                  <h3 style="margin-right: -13px;" class="align-self-center col-sm-6">{{c.name}} {{c.lastName}}</h3>
+                  <h5 class="align-self-center col-sm-4">{{c.adress}}</h5>
+                  <h6 *ngIf="(c.numbers?.length)" class="align-self-center col-sm-4">{{c.numbers[0].phoneNumber}}</h6>
+                  <span *ngIf="(!c.numbers?.length)" class="align-self-center col-sm-4"></span>
                   <i class="fa fa-paint-brush align-self-center" aria-hidden="true" style="color: cornflowerblue;" (click)="updatePopup(c);$event.stopPropagation()"></i>
                   <i class="hover-cursor fa fa-trash align-self-center" aria-hidden="true" style="color: red; margin-left: 15px;" (click)="deleteContact(c);$event.stopPropagation()"></i>
 
