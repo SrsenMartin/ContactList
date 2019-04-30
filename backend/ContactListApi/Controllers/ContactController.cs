@@ -27,6 +27,13 @@ namespace ContactListApi.Controllers
             return  _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Include(c => c.ContactTags).OrderBy(cont => cont.Name).ToList();
         }
 
+        // GET: api/Contact/5/Tags
+        [HttpGet("{id}/Tags")]
+        public IEnumerable<Tag> GetTagsByContact([FromRoute] int id)
+        {
+            return _context.Tags.Include(t => t.ContactTags).Where(t => t.ContactTags.Any(ct => ct.ContactId == id)).OrderBy(tg => tg.TagName).ToList();
+        }
+
         // GET: api/Contact/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetContact([FromRoute] int id)
@@ -44,44 +51,6 @@ namespace ContactListApi.Controllers
             }
 
             return Ok(contact.Where(cont => cont.ContactId == id));
-        }
-
-        // GET: api/Contact/5/Numbers
-        [HttpGet("{id}/Numbers")]
-        public async Task<IActionResult> GetNumbers([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var numbers = await _context.Numbers.Where(number => number.ContactId == id).ToListAsync();
-
-            if (numbers == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(numbers);
-        }
-
-        // GET: api/Contact/5/Emails
-        [HttpGet("{id}/Emails")]
-        public async Task<IActionResult> GetEmails([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var emails = await _context.Emails.Where(email => email.ContactId == id).ToListAsync();
-
-            if (emails == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(emails);
         }
 
         // GET: api/Contact/Search
@@ -102,14 +71,14 @@ namespace ContactListApi.Controllers
             contactsIds.AddRange(contIds.Select(contact => contact.ContactId));
             var distEl = contactsIds.Distinct().ToList();
 
-            var contacts = await _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Include(c => c.ContactTags).Where(contact => distEl.Contains(contact.ContactId)).ToListAsync();
+            var contacts = await _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Include(c => c.ContactTags).Where(contact => distEl.Contains(contact.ContactId)).OrderBy(cont => cont.Name).ToListAsync();
 
             if (contacts == null)
             {
                 return NotFound();
             }
 
-            return Ok(contacts.OrderBy(cont => cont.Name).ToList());
+            return Ok(contacts);
         }
 
 
@@ -216,7 +185,7 @@ namespace ContactListApi.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(contact);
         }
 
         // POST: api/Contact

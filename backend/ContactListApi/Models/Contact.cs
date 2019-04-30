@@ -76,6 +76,12 @@ namespace ContactListApi.Models
 
     public class ContactTag
     {
+        public ContactTag(int contactId, int tagId)
+        {
+            this.ContactId = contactId;
+            this.TagId = tagId;
+        }
+
         public int ContactId { get; set; }
         public Contact Contact { get; set;}
 

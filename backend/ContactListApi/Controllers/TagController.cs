@@ -24,7 +24,7 @@ namespace ContactListApi.Controllers
         [HttpGet]
         public IEnumerable<Tag> GetTags()
         {
-            return _context.Tags.Include(t => t.ContactTags);
+            return _context.Tags.Include(t => t.ContactTags).OrderBy(tg => tg.TagName).ToList();
         }
 
         // GET: api/Tag/5
@@ -45,6 +45,40 @@ namespace ContactListApi.Controllers
 
             return Ok(tags.Where(t => t.TagId == id));
         }
+
+        // GET: api/Tag/5/Contacts
+        [HttpGet("{id}/Contacts")]
+        public IEnumerable<Contact> GetContactsByTag([FromRoute] int id)
+        {
+            return _context.Contacts.Include(c => c.Numbers).Include(c => c.Emails).Include(c => c.ContactTags).Where(c => c.ContactTags.Any(ct => ct.TagId == id)).OrderBy(cont => cont.Name).ToList();
+        }
+
+        [HttpPost("AddContacts/{id}")]
+        public async Task<IActionResult> PostTagContacts([FromRoute] int id, [FromBody] int[] ids)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var idsForTag = _context.ContactTags.Where(ct => ct.TagId == id && ids.Contains(ct.ContactId));
+            foreach(var ct in idsForTag)
+            {
+                ids = ids.Where(ci => ci != ct.ContactId).ToArray();
+            }
+
+            ContactTag[] toAdd = new ContactTag[ids.Length];
+            for(int i = 0; i < ids.Length; i++)
+            {
+                toAdd[i] = new ContactTag(ids[i], id);
+            }
+
+            _context.ContactTags.AddRange(toAdd);
+            await _context.SaveChangesAsync();
+
+            return Ok(toAdd);
+        }
+
 
         // PUT: api/Tag/5
         [HttpPut("{id}")]
