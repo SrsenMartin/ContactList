@@ -9,7 +9,7 @@
     "\\src\\app\\update-tag",
     "\\src\\app\\view-component",
     "\\src\\model",
-    "\\src\\modelDTO"
+    "\\src\\Shared"
   ],
   "SelectedNode": "\\src\\app\\contacts-component\\contacts-component.component.html",
   "PreviewInSolutionExplorer": false

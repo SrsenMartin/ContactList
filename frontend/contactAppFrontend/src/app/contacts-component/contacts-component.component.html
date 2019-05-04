@@ -15,14 +15,14 @@
 
         <h2>Tags</h2>
         <ul style="margin-left:-55px;">
-          <li id="lista" *ngFor="let t of tags">
-            <div style="margin-top:5px;" class="hover-cursor list-group-item-action flex-column align-items-start" (click)="filterTag(t)">
+          <li id="lista" *ngFor="let t of tags; let i = index;">
+            <div [ngClass]="i == selectedIndex ? 'selectedTag' : ''" style="margin-top:5px;" class="hover-cursor list-group-item-action flex-column align-items-start" (click)="filterTag(t, i)">
               <div class="col-sm-10">
                 <div class="media">
                   <i class="fa fa-battery-empty align-self-center col-sm-3" style="color:silver" aria-hidden="true"></i>
                   <h5 class="align-self-center col-sm-10" style="margin-left:-10px;">{{t.tagName}}<span style="font-size:small"> ({{t.contactTags.length}})</span></h5>
                   <i class="fa fa-paint-brush align-self-center" aria-hidden="true" style="color: gainsboro;" (click)="updateTag(t);$event.stopPropagation()"></i>
-                  <i class="hover-cursor fa fa-trash align-self-center" aria-hidden="true" style="color:gainsboro; margin-left: 10px;" (click)="deleteTag(t);$event.stopPropagation()"></i>
+                  <i class="hover-cursor fa fa-trash align-self-center" aria-hidden="true" style="color:gainsboro; margin-left: 10px;" (click)="deleteTag(t, i);$event.stopPropagation()"></i>
 
                 </div>
               </div>
@@ -69,7 +69,7 @@
         <div *ngIf="(showTags)">
           <ul class="row">
             <li id="lista" *ngFor="let t of tags">
-              <button (click)="addSelected(t)" class="contacts" style="margin-left:3px;" id="{{t.tagId}}">+ {{t.tagName}}</button>
+              <button (click)="addSelected(t)" class="contacts" style="margin-left:3px;">+ {{t.tagName}}</button>
             </li>
           </ul>
         </div>

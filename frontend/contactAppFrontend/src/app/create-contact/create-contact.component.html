@@ -8,31 +8,33 @@
 
   <div class="row">
 
-      <div class=" col-md-6" [formGroup]="myPhoneForm">
-    <div formArrayName="phoneNumbers"
-         *ngFor="let item of myPhoneForm.controls.phoneNumbers.controls; let i = index;last as isLast">
-      <div [formGroupName]="i">
-        <div class="media align-self-center">
-          <input style="margin-right: -25px; margin-bottom:2px;" formControlName="phoneNumber" class="form-control align-self-center" type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone">
-          <i *ngIf="(isLast)" (click)="addPhoneField()" style="margin-right: -30px;" class="hover-cursor fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
-          <i *ngIf="(!isLast)" style="margin-right: -30px; color:white" class="fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
+    <div class=" col-md-6" [formGroup]="myPhoneForm">
+      <div formArrayName="phoneNumbers"
+           *ngFor="let item of myPhoneForm.controls.phoneNumbers.controls; let i = index;last as isLast">
+        <div [formGroupName]="i">
+          <div class="media align-self-center">
+            <input style="margin-right: 15px; margin-bottom:2px;" formControlName="phoneNumber" class="form-control align-self-center" type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone">
+            <i class="hover-cursor fa fa-times-circle align-self-center" aria-hidden="true" style="color:gainsboro;margin-right: 15px" (click)="deletePhoneField(i)"></i>
+            <i *ngIf="(isLast)" (click)="addPhoneField()" class="hover-cursor fa fa-plus-circle align-self-center" aria-hidden="true"></i>
+            <i *ngIf="(!isLast)" style="color:white" class="fa fa-plus-circle align-self-center" aria-hidden="true"></i>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-          <div class=" col-md-6" [formGroup]="myEmailForm">
-    <div formArrayName="emails"
-         *ngFor="let item of myEmailForm.controls.emails.controls; let i = index;last as isLast">
-      <div [formGroupName]="i">
-        <div class="media align-self-center">
-          <input style="margin-right: -25px; margin-bottom:2px;" formControlName="email" class="form-control align-self-center" type="email" id="email" name="email" placeholder="Email">
-          <i *ngIf="(isLast)" (click)="addEmailField()" style="margin-right: -15px;" class="hover-cursor fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
-          <i *ngIf="(!isLast)" style="margin-right: -15px; color:white" class="fa fa-plus-circle col-sm-3 align-self-center" aria-hidden="true"></i>
+    <div class=" col-md-6" [formGroup]="myEmailForm">
+      <div formArrayName="emails"
+           *ngFor="let item of myEmailForm.controls.emails.controls; let i = index;last as isLast">
+        <div [formGroupName]="i">
+          <div class="media align-self-center">
+            <input style="margin-right: 15px; margin-bottom:2px;" formControlName="email" class="form-control align-self-center" type="email" id="email" name="email" placeholder="Email">
+            <i class="hover-cursor fa fa-times-circle align-self-center" aria-hidden="true" style="color:gainsboro; margin-right: 15px;" (click)="deleteEmailField(i)"></i>
+            <i *ngIf="(isLast)" (click)="addEmailField()" class="hover-cursor fa fa-plus-circle align-self-center" aria-hidden="true"></i>
+            <i *ngIf="(!isLast)" style="color:white" class="fa fa-plus-circle align-self-center" aria-hidden="true"></i>
+          </div>
         </div>
       </div>
     </div>
-  </div>
     </div>
 
   <br />

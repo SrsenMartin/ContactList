@@ -22,6 +22,7 @@ export class ContactsComponentComponent implements OnInit {
   tags: Tag[] = [];
   showTags: boolean = false;
   currShow: String = "Contacts";
+  selectedIndex: Number = -1;
 
   constructor(private api: ApiService, private dialog: MatDialog) { }
 
@@ -35,6 +36,7 @@ export class ContactsComponentComponent implements OnInit {
     searchFilter.value = "";
     this.api.getAllContacts().subscribe(
       res => {
+        this.selectedIndex = -1;
         this.contacts = res;
         this.currShow = "Contacts";
         this.showTags = false;
@@ -54,9 +56,10 @@ export class ContactsComponentComponent implements OnInit {
       });
   }
 
-  public filterTag(tag: Tag) {
+  public filterTag(tag: Tag, index: Number) {
     this.api.getContactsByTag(String(tag.tagId)).subscribe(
       res => {
+        this.selectedIndex = index;
         this.contacts = res;
         this.currShow = tag.tagName;
         this.showTags = false;
@@ -66,9 +69,10 @@ export class ContactsComponentComponent implements OnInit {
       });
   }
 
-  public deleteTag(tag: Tag) {
+  public deleteTag(tag: Tag, index: Number) {
     this.api.deleteTag(String(tag.tagId)).subscribe(
       res => {
+        if (this.selectedIndex > index) this.selectedIndex = +this.selectedIndex - 1;
         this.tags = this.tags.filter(t => t.tagId != tag.tagId);
         if (this.currShow == tag.tagName) this.getAllContacts();
       },
@@ -83,6 +87,7 @@ export class ContactsComponentComponent implements OnInit {
       res => {
         this.contacts = this.contacts.filter(c => c.contactId != contact.contactId);
         this.check();
+        this.getAllTags();
       },
       err => {
 
@@ -209,6 +214,7 @@ export class ContactsComponentComponent implements OnInit {
   }
 
   public onSearchChange(value: String) {
+    this.selectedIndex = -1;
     if (value == null || value == "") {
       this.getAllContacts();
       return;

@@ -22,6 +22,7 @@ export class UpdateContactComponent implements OnInit {
   error: boolean = false;
   myPhoneForm: FormGroup;
   myEmailForm: FormGroup;
+  arr: any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private api: ApiService, public dialogRef: MatDialogRef<UpdateContactComponent>, private formBuilder: FormBuilder) { }
 
@@ -88,9 +89,19 @@ export class UpdateContactComponent implements OnInit {
     });
   }
 
+  deletePhoneField(index: Number) {
+    this.arr = this.myPhoneForm.controls["phoneNumbers"];
+    this.arr.removeAt(index);
+  }
+
   addPhoneField(number: String) {
     const control = <FormArray>this.myPhoneForm.controls['phoneNumbers'];
     control.push(this.initPhoneNumber(number));
+  }
+
+  deleteEmailField(index: Number) {
+    this.arr = this.myEmailForm.controls["emails"];
+    this.arr.removeAt(index);
   }
 
   addEmailField(email: String) {
@@ -121,33 +132,35 @@ export class UpdateContactComponent implements OnInit {
     var numberArray = this.myPhoneForm.value.phoneNumbers;
     var re = new RegExp("^[0-9]*$");
     var phones = this.data.numbers;
-    for (let i = 0; i < numberArray.length; i++) {
+    for (let i = 0, index = 0; i < numberArray.length; i++) {
       var num = String(numberArray[i].phoneNumber);
       if (!num || num == "" || !re.test(num)) {
-        if (i < phones.length) phones.splice(i, 1);
         continue;
       }
 
-      if (i < phones.length) {
-        phones[i].phoneNumber = num;
+      if (index < phones.length) {
+        phones[index].phoneNumber = num;
       } else {
         phones.push(new PhoneNumber(num));
       }
+
+      index++;
     }
 
     var emailArray = this.myEmailForm.value.emails;
     var emails = this.data.emails;
-    for (let i = 0; i < emailArray.length; i++) {
+    for (let i = 0, index = 0; i < emailArray.length; i++) {
       var e = String(emailArray[i].email);
       if (!e || e == "" || !this.validateEmail(e)) {
-        if (i < emails.length)  emails.splice(i, 1);
         continue;
       }
-      if (i < emails.length) {
-        emails[i].emailAdress = e;
+      if (index < emails.length) {
+        emails[index].emailAdress = e;
       } else {
         emails.push(new Email(e));
       }
+
+      index++;
     }
 
     const contact = new Contact(this.data.id, nameInput.value, lastNameInput.value, adressInput.value, phones, emails, null);

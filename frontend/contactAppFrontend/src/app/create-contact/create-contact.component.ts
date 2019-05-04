@@ -17,6 +17,7 @@ export class CreateContactComponent implements OnInit {
   error: boolean = false;
   myPhoneForm: FormGroup;
   myEmailForm: FormGroup;
+  arr: any;
 
   constructor(private api: ApiService, public dialogRef: MatDialogRef<CreateContactComponent>, private formBuilder: FormBuilder) { }
 
@@ -50,6 +51,16 @@ export class CreateContactComponent implements OnInit {
   addPhoneField() {
     const control = <FormArray>this.myPhoneForm.controls['phoneNumbers'];
     control.push(this.initPhoneNumber());
+  }
+
+  deletePhoneField(index: Number) {
+    this.arr = this.myPhoneForm.controls["phoneNumbers"];
+    this.arr.removeAt(index);
+  }
+
+  deleteEmailField(index: Number) {
+    this.arr = this.myEmailForm.controls["emails"];
+    this.arr.removeAt(index);
   }
 
   addEmailField() {
