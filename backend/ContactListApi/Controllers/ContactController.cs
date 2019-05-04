@@ -68,6 +68,7 @@ namespace ContactListApi.Controllers
 
             var contactsIds = new List<int>();
             var contIds = await _context.Contacts.Where(contact => contact.Name.StartsWith(keyword) || contact.LastName.StartsWith(keyword)).ToListAsync();
+            await _context.Tags.Include(t => t.ContactTags).Where(t => t.TagName.StartsWith(keyword)).ForEachAsync(t => contactsIds.AddRange(t.ContactTags.Select(ct => ct.ContactId)));
             contactsIds.AddRange(contIds.Select(contact => contact.ContactId));
             var distEl = contactsIds.Distinct().ToList();
 
